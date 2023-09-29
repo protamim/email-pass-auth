@@ -12,6 +12,9 @@ const SignUp = () => {
     const email = e.target.email.value;
     const password = e.target.confirmPassword.value;
     console.log(email, password)
+    // regular expression
+    const isContainsUppercase = /[A-Z]/;
+    const isContainSymbol = /[~`!@#$%^&*()--+={}[\]|\\:;"'<>,.?/_₹]/
     // Reset everytime
     setSuccess('');
     setSignUpError('');
@@ -19,9 +22,14 @@ const SignUp = () => {
     if(password.length < 6){
       setSignUpError('Password should be at least 6 characters!');
       return;
+    }else if(!isContainsUppercase.test(password)){
+      setSignUpError('Password must have at least one Uppercase Character.');
+      return;
+    }else if(!isContainSymbol.test(password)){
+      return setSignUpError("Password must contain at least one Special Symbol.")
     }
 
-    // Firebase
+    // Firebase Authutenticaion
     createUserWithEmailAndPassword(auth, email, password)
     .then(result => {
       console.log(result)
